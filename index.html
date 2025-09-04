@@ -244,9 +244,27 @@
       </div>
     </section>
   </main>
+  
+ <!-- Background Music -->
+<audio id="bgm" src="happy-birthday-155461" loop></audio>
 
-  <!-- audio file: replace "music.mp3" with your uploaded file or remote URL -->
-  <audio id="bgm" src="happy-birthday-155461" loop preload="auto"></audio>
+<script>
+function playMusic() {
+  const audio = document.getElementById("bgm");
+  audio.play().then(() => {
+    console.log("Music started!");
+  }).catch(error => {
+    console.log("Autoplay prevented:", error);
+    alert("Tap again to start music 🎶");
+  });
+
+  // Trigger confetti if available
+  if (typeof confetti === "function") {
+    confetti();
+  }
+}
+</script>
+  
   <footer>
     Made with love 💕 — open this on your birthday and enjoy the confetti!
   </footer>
