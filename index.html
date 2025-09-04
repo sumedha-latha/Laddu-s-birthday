@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday Laddu 🎂💖</title>
+  <style>
+    :root{
+      --accent:#ff4da6;
+      --accent-dark:#e91e63;
+      --bg1: #fff6f9;
+      --bg2: #ffeef3;
+      --card: rgba(255,255,255,0.85);
+      --glass: rgba(255,255,255,0.6);
+      --text:#222;
+      --muted:#666;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      line-height:1.45;
+    }
+
+    /* confetti canvas sits on top */
+    #confetti-canvas{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:40;
+    }
+
+    header{
+      min-height:72vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:40px 20px;
+      position:relative;
+      overflow:visible;
+    }
+    .hero {
+      max-width:920px;
+      width:100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      border-radius:18px;
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(20,20,20,0.08);
+      backdrop-filter: blur(6px);
+    }
+    h1{
+      margin:0;
+      font-size:clamp(28px,6vw,52px);
+      letter-spacing:0.5px;
+      color:var(--accent-dark);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:12px;
+    }
+    h1 .spark { display:inline-block; transform-origin:center; animation: sparkle 1.8s infinite; }
+    @keyframes sparkle{ 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+    p.lead{
+      margin:10px 0 18px 0;
+      color:var(--muted);
+      font-size:1.05rem;
+    }
+
+    .play-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-top:12px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-dark));
+      color:white;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:600;
+      box-shadow:0 8px 18px rgba(233,30,99,0.18);
+      cursor:pointer;
+      border:none;
+      font-size:1rem;
+    }
+
+    main{
+      padding:36px 18px 90px 18px;
+      max-width:980px;
+      margin:0 auto;
+    }
+
+    section.card{
+      background:var(--card);
+      border-radius:14px;
+      padding:22px;
+      margin:18px 0;
+      box-shadow:0 6px 20px rgba(30,30,30,0.05);
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .gallery img{
+      width:100%;
+      height:120px;
+      object-fit:cover;
+      border-radius:10px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.06);
+      transition: transform .25s ease;
+    }
+    .gallery img:active, .gallery img:hover{ transform:scale(1.03) }
+
+    .reveal{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .btn {
+      padding:10px 14px;
+      background:var(--accent);
+      color:white;
+      border-radius:10px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .secret{
+      display:none;
+      padding:14px;
+      background:var(--glass);
+      border-radius:10px;
+      margin-top:12px;
+      font-size:1.05rem;
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      margin:30px 0 60px;
+      font-size:0.92rem;
+    }
+
+    /* little floating balloon animation */
+    .balloons {
+      position:absolute;
+      inset:auto 18px 18px auto;
+      display:flex;
+      gap:10px;
+      z-index:10;
+    }
+    .balloon{
+      width:40px;
+      height:56px;
+      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+      display:block;
+      transform-origin:center bottom;
+      animation: floaty 4s ease-in-out infinite;
+      box-shadow:0 8px 18px rgba(0,0,0,0.08);
+    }
+    .balloon:nth-child(1){ background:linear-gradient(180deg,#ff9fcf,#ff6bb0); animation-delay:-0.8s }
+    .balloon:nth-child(2){ background:linear-gradient(180deg,#ffd09e,#ffb86b); animation-delay:-0.3s }
+    .balloon:nth-child(3){ background:linear-gradient(180deg,#c9f0ff,#86d9ff); animation-delay:-1.2s }
+    @keyframes floaty{
+      0%{ transform: translateY(0) rotate(-3deg) }
+      50%{ transform: translateY(-10px) rotate(3deg) }
+      100%{ transform: translateY(0) rotate(-3deg) }
+    }
+
+    /* responsive spacing */
+    @media (max-width:520px){
+      .gallery img{ height:100px }
+      .hero{ padding:20px }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <header>
+    <div class="hero" role="banner">
+      <h1>
+        <span>🎉</span>
+        <span>Happy Birthday, <span style="color:var(--accent-dark);">Laddu</span>!</span>
+        <span class="spark">💖</span>
+      </h1>
+      <p class="lead">A small space for all the love, memories, and silly things that make *you* the best friend in the world.</p>
+
+      <!-- This button is the required user gesture on phones to start audio + confetti -->
+      <div style="display:flex;justify-content:center;">
+        <button id="startButton" class="play-btn" aria-label="Play music and celebrate">▶ Play music & celebrate</button>
+      </div>
+    </div>
+
+    <div class="balloons" aria-hidden="true">
+      <span class="balloon" style="transform:scale(1.05)"></span>
+      <span class="balloon" style="transform:scale(0.95)"></span>
+      <span class="balloon" style="transform:scale(1.02)"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="msg">
+      <h2 id="msg">A Little Message</h2>
+      <p>If there was a map to all the small, beautiful moments of my life — you'd be at every landmark. Thank you for your laughter, your soft honesty, and for being my person. Today I celebrate you, your heart, and every memory we carry together.</p>
+    </section>
+
+    <section class="card" aria-labelledby="mem">
+      <h2 id="mem">Our Memories</h2>
+      <div class="gallery" id="gallery">
+        <!-- Default sample images. Replace these by uploading your own and editing src's (instructions below). -->
+        <img src="https://source.unsplash.com/400x300/?friends,smile" alt="Memory 1">
+        <img src="https://source.unsplash.com/400x300/?friends,celebration" alt="Memory 2">
+        <img src="https://source.unsplash.com/400x300/?party,smile" alt="Memory 3">
+      </div>
+      <p style="margin-top:10px;color:var(--muted);font-size:0.95rem">(Tip: Replace the gallery images with your own photos — instructions below.)</p>
+    </section>
+
+    <section class="card" aria-labelledby="surp">
+      <h2 id="surp">A Little Surprise</h2>
+      <div class="reveal">
+        <button id="revealBtn" class="btn">Click to Reveal ✨</button>
+      </div>
+      <div id="secret" class="secret" role="note" aria-hidden="true">
+        Laddu — I am forever grateful for you. For the silly jokes, for listening to me, for the quiet cups of tea, for the loud nights. You are loved more than words can hold. Happy birthday, my dearest.
+      </div>
+    </section>
+  </main>
+
+  <!-- audio file: replace "music.mp3" with your uploaded file or remote URL -->
+  <audio id="bgm" src="music.mp3" loop preload="none"></audio>
+
+  <footer>
+    Made with love 💕 — open this on her birthday and enjoy the confetti!
+  </footer>
+
+  <script>
+    /* ---------- Confetti engine (small, dependency-free) ---------- */
+    (function(){
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      let w=0,h=0,particles=[],raf,running=false;
+
+      function resize(){
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize',resize);
+      resize();
+
+      function random(min,max){ return Math.random()*(max-min)+min; }
+      const colors = ['#FF6B9A','#FFD27A','#8BE6FF','#B99CFF','#FF9ED6','#FFB3B3'];
+
+      function makeParticle(x,y){
+        return {
+          x:x,
+          y:y,
+          vx: random(-6,6),
+          vy: random(-12,-6),
+          size: random(6,12),
+          rot: random(0,360),
+          vr: random(-6,6),
+          color: colors[Math.floor(Math.random()*colors.length)],
+          ttl: random(60,120)
+        };
+      }
+
+      function burst(x,y,amount=80){
+        for(let i=0;i<amount;i++) particles.push(makeParticle(x + random(-10,10), y + random(-10,10)));
+        if(!running){ running=true; loop(); }
+      }
+
+      function loop(){
+        ctx.clearRect(0,0,w,h);
+        for(let i=particles.length-1;i>=0;i--){
+          const p = particles[i];
+          p.vy += 0.45; // gravity
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vr;
+          p.ttl--;
+          // draw rectangle (tilted)
+          ctx.save();
+          ctx.translate(p.x,p.y);
+          ctx.rotate(p.rot * Math.PI / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+          ctx.restore();
+          // remove if off-screen or ttl
+          if(p.y > h + 60 || p.x < -60 || p.x > w + 60 || p.ttl <= 0){
+            particles.splice(i,1);
+          }
+        }
+        if(particles.length>0) raf = requestAnimationFrame(loop);
+        else running=false;
+      }
+
+      // expose a global function to start confetti
+      window.startConfetti = function(duration=7000){
+        // create repeated bursts for the duration
+        const end = Date.now()+duration;
+        function doBurst(){
+          const x = random(0.2*w,0.8*w);
+          const y = random(0.15*h,0.35*h);
+          burst(x,y, 28 + Math.floor(random(10,30)));
+          if(Date.now() < end) setTimeout(doBurst, 350 + Math.random()*350);
+        }
+        doBurst();
+      };
+
+      // small burst for reveal button
+      window.smallConfetti = function(){
+        burst(w/2, h/3, 42);
+      };
+    })();
+
+    /* ---------- UI behaviour: play music + confetti on first tap ---------- */
+    (function(){
+      const startBtn = document.getElementById('startButton');
+      const bgm = document.getElementById('bgm');
+      const revealBtn = document.getElementById('revealBtn');
+      const secret = document.getElementById('secret');
+
+      function safePlayAudio(){
+        // only try if audio has a source
+        if(!bgm || !bgm.src) return Promise.resolve();
+        return bgm.play().catch(()=>{ /* ignored: some browsers still block */ });
+      }
+
+      function celebrate(){
+        // play audio (if any) and start confetti
+        safePlayAudio();
+        // larger confetti celebration
+        startConfetti(8000);
+        // small extra burst
+        setTimeout(()=> smallConfetti(), 600);
+        // change the start button text
+        startBtn.textContent = 'Enjoy the music 🎶';
+        startBtn.disabled = true;
+      }
+
+      // start button ensures a user gesture on mobile
+      startBtn.addEventListener('click', function(e){
+        celebrate();
+      });
+
+      // reveal button shows secret and a small confetti burst
+      revealBtn.addEventListener('click', function(){
+        if(secret.style.display === 'block') return;
+        secret.style.display = 'block';
+        // micro animation
+        secret.animate([{ transform:'scale(.96)', opacity:0 }, { transform:'scale(1)', opacity:1 }], { duration:360, easing:'cubic-bezier(.2,.8,.2,1)' });
+        // make a satisfying sound if audio exists (it will already be playing)
+        smallConfetti();
+      });
+
+      // also allow tapping anywhere to start (friendly for mobile)
+      let tapped = false;
+      document.addEventListener('click', function firstTap(e){
+        if(tapped) return;
+        tapped = true;
+        // if user clicked something else (like reveal), let that action run
+        // but also start celebration (non-intrusive)
+        celebrate();
+        // remove this listener
+        document.removeEventListener('click', firstTap);
+      }, { once:true });
+
+      // keyboard-friendly: space/enter on start button
+      startBtn.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Enter' || ev.key === ' ') startBtn.click();
+      });
+    })();
+  </script>
+</body>
+</html>
