@@ -37,6 +37,17 @@
   0%, 100% { opacity: 0.2; }
   50% { opacity: 1; }
 }
+    .cake-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* space below the button */
+}
+
+.cake-img {
+  max-width: 250px; /* control cake size */
+  height: auto;
+  border-radius: 20px; /* optional, makes edges softer */
+}
     h1 {
       font-size: 2.5em;
       margin-top: 20px;
@@ -125,8 +136,9 @@ for (let i = 0; i < 100; i++) {
   <audio id="bgm" src="Jis Roz Hum Tum Phir Se Milenge - Saiyaara Title Song _ Faheem Abdullah.mp3" loop></audio>
 
   <!-- Cake -->
-  <div>
-    <img src="f8ae84b1e452ef90b2a4deffb10c1255.jpg" alt="Birthday Cake" width="200">
+  <div class="cake-container">
+   <img src="f8ae84b1e452ef90b2a4deffb10c1255.jpg" alt="Birthday Cake" 
+  class="cake-img">
   </div>
 
   <!-- Gallery -->
