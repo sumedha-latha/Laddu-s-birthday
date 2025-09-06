@@ -122,15 +122,17 @@
 }
 .balloon {
   position: absolute;
-  bottom: -150px;
-  width: 60px;
-  height: 80px;
+  bottom: -100px;
+  width: 40px;
+  height: 60px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ff7675, #d63031);
-  animation: float 8s ease-in infinite;
+  opacity: 0.6;
+  animation: floatUp 8s linear forwards;
+  z-index: -1; /* balloons stay behind text */
 }
-@keyframes float {
-  0% { transform: translateY(0); opacity: 1; }
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0.8; }
   100% { transform: translateY(-120vh); opacity: 0; }
 }
 
@@ -347,20 +349,26 @@ for (let i = 0; i < 100; i++) {
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
   <script>
-    /* 🎈 Balloons generator */
 function createBalloons() {
   const container = document.getElementById("balloon-container");
-  for (let i = 0; i < 15; i++) {
+
+  for (let i = 0; i < 5; i++) {  // only 5 balloons at a time
     let balloon = document.createElement("div");
     balloon.className = "balloon";
     balloon.style.left = Math.random() * 100 + "vw";
-    balloon.style.background = `hsl(${Math.random()*360},70%,60%)`;
-    balloon.style.animationDuration = 6 + Math.random()*5 + "s";
+    balloon.style.background = `hsl(${Math.random() * 360},70%,60%)`;
+    balloon.style.animationDuration = 8 + Math.random() * 4 + "s";
     container.appendChild(balloon);
-    setTimeout(() => balloon.remove(), 10000);
+
+    setTimeout(() => balloon.remove(), 12000);
   }
 }
-setInterval(createBalloons, 2000);
+
+// new balloons only every 6 seconds
+setInterval(createBalloons, 6000);
+
+// create some initial balloons
+createBalloons();
 
 /* 🎥 Slideshow then gallery */
 let slideIndex = 0;
