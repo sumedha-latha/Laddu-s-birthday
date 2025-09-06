@@ -111,9 +111,153 @@
       background: rgba(0,0,0,0.3);
       display: none;
     }
+    /* 🎈 Balloons */
+#balloon-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+.balloon {
+  position: absolute;
+  bottom: -150px;
+  width: 60px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff7675, #d63031);
+  animation: float 8s ease-in infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* 🎥 Slideshow */
+#slideshow {
+  display: none;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+.slides {
+  display: none;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* 🖼️ Gallery after slideshow */
+#gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 2rem 0;
+}
+#gallery img {
+  width: 150px;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+#gallery img:hover {
+  transform: scale(1.05);
+}
+
+/* 💌 Hidden surprise messages */
+.hidden-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.message-popup {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 15px 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  display: none;
+  z-index: 20;
+}
+
+/* 💕 Wishing Wall */
+#wishing-wall {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: rgba(255,182,193,0.2);
+  overflow: hidden;
+}
+.wish {
+  position: absolute;
+  bottom: -50px;
+  font-size: 20px;
+  color: #e84393;
+  animation: rise 12s linear infinite;
+}
+@keyframes rise {
+  0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+  100% { transform: translateY(-220px) scale(1.2); opacity: 0; }
+}
+
+/* 🌠 Shooting Stars */
+.shooting-star {
+  position: fixed;
+  top: 0;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(-45deg, white, transparent);
+  animation: shoot 1s linear forwards;
+}
+@keyframes shoot {
+  0% { transform: translateX(0) translateY(0) rotate(45deg); opacity: 1; }
+  100% { transform: translateX(-300px) translateY(300px) rotate(45deg); opacity: 0; }
+}
+
+/* 🎆 Fireworks (basic dots) */
+.firework {
+  position: fixed;
+  border-radius: 50%;
+  opacity: 0;
+  animation: explode 1s ease-out forwards;
+}
+@keyframes explode {
+  0% { transform: scale(0.2); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
   </style>
 </head>
 <body>
+  <!-- 🎂 Cake section (you already have it) -->
+
+<!-- 🎈 Balloons -->
+<div id="balloon-container"></div>
+
+<!-- 🎥 Slideshow -->
+<div id="slideshow">
+  <img class="slides" src="images/photo1.jpg" alt="Memory 1">
+  <img class="slides" src="images/photo2.jpg" alt="Memory 2">
+  <img class="slides" src="images/photo3.jpg" alt="Memory 3">
+</div>
+
+<!-- 🖼️ Gallery (after slideshow ends, pics land here) -->
+<div id="gallery"></div>
+
+<!-- 💌 Hidden surprise icons (scatter wherever you want) -->
+<img src="icons/heart.png" class="hidden-icon" style="top:100px; left:50px;" data-message="You are my forever, Laddu!">
+<img src="icons/star.png" class="hidden-icon" style="top:200px; right:70px;" data-message="Every day is brighter with you.">
+<img src="icons/butterfly.png" class="hidden-icon" style="bottom:150px; left:120px;" data-message="You make my world magical.">
+
+<div class="message-popup" id="popup"></div>
+
+<!-- 💕 Wishing Wall -->
+<div id="wishing-wall"></div>
   <div class="stars"></div>
 <script>
 // Generate stars
@@ -283,6 +427,99 @@ for (let i = 0; i < 100; i++) {
       typeLetter();
     }
   </script>
+/* 🎈 Balloons generator */
+function createBalloons() {
+  const container = document.getElementById("balloon-container");
+  for (let i = 0; i < 15; i++) {
+    let balloon = document.createElement("div");
+    balloon.className = "balloon";
+    balloon.style.left = Math.random() * 100 + "vw";
+    balloon.style.background = `hsl(${Math.random()*360},70%,60%)`;
+    balloon.style.animationDuration = 6 + Math.random()*5 + "s";
+    container.appendChild(balloon);
+    setTimeout(() => balloon.remove(), 10000);
+  }
+}
+setInterval(createBalloons, 2000);
 
+/* 🎥 Slideshow then gallery */
+let slideIndex = 0;
+function startSlideshow() {
+  document.getElementById("slideshow").style.display = "block";
+  showSlides();
+}
+function showSlides() {
+  let slides = document.getElementsByClassName("slides");
+  for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
+  slideIndex++;
+  if (slideIndex > slides.length) {
+    slides[slides.length-1].style.display = "none";
+    endSlideshow();
+    return;
+  }
+  slides[slideIndex-1].style.display = "block";
+  setTimeout(showSlides, 2000); // 2s per slide
+}
+function endSlideshow() {
+  document.getElementById("slideshow").style.display = "none";
+  let gallery = document.getElementById("gallery");
+  let slides = document.getElementsByClassName("slides");
+  for (let i=0;i<slides.length;i++) {
+    let img = document.createElement("img");
+    img.src = slides[i].src;
+    gallery.appendChild(img);
+  }
+}
+
+/* 💌 Hidden Surprise Messages */
+const icons = document.querySelectorAll(".hidden-icon");
+const popup = document.getElementById("popup");
+icons.forEach(icon => {
+  icon.addEventListener("click", () => {
+    popup.innerText = icon.dataset.message;
+    popup.style.display = "block";
+    setTimeout(() => popup.style.display = "none", 3000);
+  });
+});
+
+/* 💕 Wishing Wall floating hearts */
+const wishes = ["Happiness", "Love", "Health", "Forever Us", "Dreams Come True"];
+function createWish() {
+  const wall = document.getElementById("wishing-wall");
+  let wish = document.createElement("div");
+  wish.className = "wish";
+  wish.innerText = wishes[Math.floor(Math.random()*wishes.length)];
+  wish.style.left = Math.random()*90 + "%";
+  wall.appendChild(wish);
+  setTimeout(()=>wish.remove(),12000);
+}
+setInterval(createWish, 2500);
+
+/* 🌠 Shooting Stars */
+function createStar() {
+  let star = document.createElement("div");
+  star.className = "shooting-star";
+  star.style.left = Math.random()*100 + "vw";
+  document.body.appendChild(star);
+  setTimeout(()=>star.remove(), 1000);
+}
+setInterval(createStar, 8000);
+
+/* 🎆 Fireworks */
+function launchFirework(x, y) {
+  for (let i = 0; i < 20; i++) {
+    let dot = document.createElement("div");
+    dot.className = "firework";
+    dot.style.width = "6px";
+    dot.style.height = "6px";
+    dot.style.background = `hsl(${Math.random()*360},80%,60%)`;
+    dot.style.left = x + "px";
+    dot.style.top = y + "px";
+    document.body.appendChild(dot);
+    dot.style.animation = "explode 1s ease-out forwards";
+    setTimeout(()=>dot.remove(),1000);
+  }
+}
+document.addEventListener("click", (e)=> launchFirework(e.pageX, e.pageY));
 </body>
 </html>
