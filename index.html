@@ -243,11 +243,6 @@
 
 </div>
 
-<!-- 💌 Hidden surprise icons (scatter wherever you want) -->
-<img src="icons/heart.png" class="hidden-icon" style="top:100px; left:50px;" data-message="You are my forever, Laddu!">
-<img src="icons/star.png" class="hidden-icon" style="top:200px; right:70px;" data-message="Every day is brighter with you.">
-<img src="icons/butterfly.png" class="hidden-icon" style="bottom:150px; left:120px;" data-message="You make my world magical.">
-
 <div class="message-popup" id="popup"></div>
 
 <!-- 💕 Wishing Wall -->
@@ -390,17 +385,6 @@ function endSlideshow() {
     gallery.appendChild(img);
   }
 }
-
-/* 💌 Hidden Surprise Messages */
-const icons = document.querySelectorAll(".hidden-icon");
-const popup = document.getElementById("popup");
-icons.forEach(icon => {
-  icon.addEventListener("click", () => {
-    popup.innerText = icon.dataset.message;
-    popup.style.display = "block";
-    setTimeout(() => popup.style.display = "none", 3000);
-  });
-});
 
 /* 💕 Wishing Wall floating hearts */
 const wishes = ["Happiness", "Love", "Health", "Forever Us", "Dreams Come True"];
