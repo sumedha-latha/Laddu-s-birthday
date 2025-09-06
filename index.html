@@ -347,87 +347,7 @@ for (let i = 0; i < 100; i++) {
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
   <script>
-    // Typewriter
-    const text = "🌸 Happy Birthday, Laddu 🌸";
-    let i = 0;
-    function typing() {
-      if (i < text.length) {
-        document.getElementById("typewriter").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typing, 100);
-      }
-    }
-    window.onload = typing;
-
-    // Balloons
-    for (let i = 0; i < 10; i++) {
-      let balloon = document.createElement("div");
-      balloon.classList.add("balloon");
-      balloon.style.left = Math.random() * 100 + "vw";
-      balloon.style.background = ["#ff4081","#ffcc00","#66bb6a","#42a5f5","#ab47bc"][Math.floor(Math.random()*5)];
-      balloon.style.animationDuration = 5 + Math.random()*5 + "s";
-      document.body.appendChild(balloon);
-    }
-
-    // Play Music + Heart Confetti
-    function playMusic() {
-      const audio = document.getElementById("bgm");
-      audio.play();
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        shapes: ['heart'],
-        origin: { y: 0.6 }
-      });
-    }
-
-    // Fireworks after reveal
-    function startFireworks() {
-      const duration = 5 * 1000;
-      const end = Date.now() + duration;
-
-      (function frame() {
-        confetti({
-          particleCount: 3,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 }
-        });
-        confetti({
-          particleCount: 3,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 }
-        });
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
-      }());
-    }
-
-    function revealSurprise() {
-      document.getElementById('surprise').style.display = 'block';
-      startFireworks();
-    }
-
-    // Letter Animation
-    const letterText = "My dearest Laddu,\n\nEvery word I could write would still fall short of what you mean to me. You are not just a friend, but a piece of my soul walking beside me in this world. Thank you for being laughter when I had none, for being strength when I felt weak, and for being love in its truest, most selfless form.\n\nI hope today reminds you of just how extraordinary you are — to me, and to everyone lucky enough to know you.\n\nForever grateful for you 💖";
-    
-    function showLetter() {
-      const letterDiv = document.getElementById("letter");
-      letterDiv.style.display = "block";
-      let j = 0;
-      function typeLetter() {
-        if (j < letterText.length) {
-          letterDiv.innerHTML += letterText.charAt(j);
-          j++;
-          setTimeout(typeLetter, 50);
-        }
-      }
-      typeLetter();
-    }
-  </script>
-/* 🎈 Balloons generator */
+    /* 🎈 Balloons generator */
 function createBalloons() {
   const container = document.getElementById("balloon-container");
   for (let i = 0; i < 15; i++) {
@@ -521,5 +441,85 @@ function launchFirework(x, y) {
   }
 }
 document.addEventListener("click", (e)=> launchFirework(e.pageX, e.pageY));
+    // Typewriter
+    const text = "🌸 Happy Birthday, Laddu 🌸";
+    let i = 0;
+    function typing() {
+      if (i < text.length) {
+        document.getElementById("typewriter").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typing, 100);
+      }
+    }
+    window.onload = typing;
+
+    // Balloons
+    for (let i = 0; i < 10; i++) {
+      let balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+      balloon.style.left = Math.random() * 100 + "vw";
+      balloon.style.background = ["#ff4081","#ffcc00","#66bb6a","#42a5f5","#ab47bc"][Math.floor(Math.random()*5)];
+      balloon.style.animationDuration = 5 + Math.random()*5 + "s";
+      document.body.appendChild(balloon);
+    }
+
+    // Play Music + Heart Confetti
+    function playMusic() {
+      const audio = document.getElementById("bgm");
+      audio.play();
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        shapes: ['heart'],
+        origin: { y: 0.6 }
+      });
+    }
+
+    // Fireworks after reveal
+    function startFireworks() {
+      const duration = 5 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+
+    function revealSurprise() {
+      document.getElementById('surprise').style.display = 'block';
+      startFireworks();
+    }
+
+    // Letter Animation
+    const letterText = "My dearest Laddu,\n\nEvery word I could write would still fall short of what you mean to me. You are not just a friend, but a piece of my soul walking beside me in this world. Thank you for being laughter when I had none, for being strength when I felt weak, and for being love in its truest, most selfless form.\n\nI hope today reminds you of just how extraordinary you are — to me, and to everyone lucky enough to know you.\n\nForever grateful for you 💖";
+    
+    function showLetter() {
+      const letterDiv = document.getElementById("letter");
+      letterDiv.style.display = "block";
+      let j = 0;
+      function typeLetter() {
+        if (j < letterText.length) {
+          letterDiv.innerHTML += letterText.charAt(j);
+          j++;
+          setTimeout(typeLetter, 50);
+        }
+      }
+      typeLetter();
+    }
+  </script>
 </body>
 </html>
