@@ -6,40 +6,34 @@
   <title>Happy Birthday Laddu 🎉</title>
   <style>
     body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-  color: white;
-  text-align: center;
-
-  /* Animated gradient background */
-  background: linear-gradient(-45deg, #d46a92, #b04d7a, #e07fa6, #c95f85);
-  background-size: 400% 400%;
-  animation: gradientShift 18s ease infinite;
-}
-
-/* Gradient animation */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-    body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: radial-gradient(white 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity: 0.08;
-  z-index: -1;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-align: center;
+      background: linear-gradient(-45deg, #d46a92, #b04d7a, #e07fa6, #c95f85);
+      background-size: 400% 400%;
+      animation: gradientShift 18s ease infinite;
     }
-
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(white 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.08;
+      z-index: -1;
+    }
     h1 {
       font-size: 2.5em;
       margin-top: 20px;
     }
-
     button {
       padding: 10px 20px;
       font-size: 1.2em;
@@ -50,18 +44,15 @@
       cursor: pointer;
       margin: 15px;
     }
-
     button:hover {
       background-color: #e91e63;
     }
-
     #gallery img {
       width: 220px;
       margin: 10px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-
     .balloon {
       position: fixed;
       bottom: -100px;
@@ -71,13 +62,11 @@
       animation: float 10s linear infinite;
       z-index: 0;
     }
-
     @keyframes float {
       0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
       50% { opacity: 1; }
       100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
     }
-
     #surprise {
       display: none;
       font-size: 1.2em;
@@ -86,7 +75,6 @@
       background: rgba(255,255,255,0.1);
       border-radius: 15px;
     }
-
     #letter {
       font-size: 1.1em;
       margin: 20px auto;
@@ -107,7 +95,7 @@
   <p>You are not just my best friend, you are the heartbeat of my happiest memories, the laughter behind my quietest days, and the warmth that makes life feel like home.</p>
 
   <!-- Play Music + Confetti -->
-  <button onclick="playMusic()">Click to Start the Celebration 🎶</button>
+  <button id="startCelebration">Click to Start the Celebration 🎶</button>
   <audio id="celebrationMusic" src="Jis Roz Hum Tum Phir Se Milenge - Saiyaara Title Song _ Faheem Abdullah.mp3" loop></audio>
 
   <!-- Cake -->
@@ -149,7 +137,6 @@
         <img src="1741022149914.jpg" alt="Memory 28">
         <img src="1741022149522.jpg" alt="Memory 29">
         <img src="1735103077932.jpg" alt="Memory 30">
-       
   </div>
 
   <!-- Surprise -->
@@ -163,10 +150,9 @@
   <!-- Voice Message -->
   <h2>💌 A Message From Me</h2>
   <p>Because words on screen weren’t enough, here’s my voice — straight from me to you. 🎶</p>
-  <audio controls>
+  <audio id="voiceMessage" controls>
     <source src="Audio.m4a" type="audio/mp4">
     Your browser does not support the audio element.
-    <audio id="voiceMessage" controls>
   </audio>
 
   <!-- Animated Letter -->
@@ -175,7 +161,7 @@
   <div id="letter"></div>
 
   <!-- Confetti Library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     // Typewriter
@@ -200,53 +186,40 @@
       document.body.appendChild(balloon);
     }
 
-    // Play Music + Heart Confetti
-    function playMusic() {
-      const audio = document.getElementById("celebrationMusic");
-      audio.play();
+    // Celebration: music + confetti
+    const celebrationMusic = document.getElementById("celebrationMusic");
+    const startCelebration = document.getElementById("startCelebration");
+    startCelebration.addEventListener("click", () => {
+      celebrationMusic.currentTime = 0;
+      celebrationMusic.play();
       confetti({
-        particleCount: 100,
-        spread: 70,
-        shapes: ['heart'],
+        particleCount: 150,
+        spread: 90,
         origin: { y: 0.6 }
       });
-    }
+    });
 
     // Fireworks after reveal
     function startFireworks() {
       const duration = 5 * 1000;
       const end = Date.now() + duration;
-
       (function frame() {
-        confetti({
-          particleCount: 3,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 }
-        });
-        confetti({
-          particleCount: 3,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 }
-        });
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
+        confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 } });
+        if (Date.now() < end) requestAnimationFrame(frame);
       }());
     }
-
     function revealSurprise() {
       document.getElementById('surprise').style.display = 'block';
       startFireworks();
     }
 
-    // Letter Animation
+    // Letter typing animation
     const letterText = "My dearest Laddu,\n\nEvery word I could write would still fall short of what you mean to me. You are not just a friend, but a piece of my soul walking beside me in this world. Thank you for being laughter when I had none, for being strength when I felt weak, and for being love in its truest, most selfless form.\n\nI hope today reminds you of just how extraordinary you are — to me, and to everyone lucky enough to know you.\n\nForever grateful for you 💖";
-    
     function showLetter() {
       const letterDiv = document.getElementById("letter");
       letterDiv.style.display = "block";
+      letterDiv.innerHTML = "";
       let j = 0;
       function typeLetter() {
         if (j < letterText.length) {
@@ -257,36 +230,18 @@
       }
       typeLetter();
     }
-  </script>
-<script>
-  const celebrationMusic = document.getElementById("celebrationMusic");
-  const voiceMessage = document.getElementById("voiceMessage");
-  const startCelebration = document.getElementById("startCelebration");
 
-  // 🎉 Start button triggers music + confetti
-  startCelebration.addEventListener("click", () => {
-    celebrationMusic.play();
-
-    // Confetti
-    confetti({
-      particleCount: 150,
-      spread: 90,
-      origin: { y: 0.6 }
+    // Voice message pauses/resumes music
+    const voiceMessage = document.getElementById("voiceMessage");
+    voiceMessage.addEventListener("play", () => {
+      if (!celebrationMusic.paused) {
+        celebrationMusic.pause();
+      }
     });
-  });
+    voiceMessage.addEventListener("ended", () => {
+      celebrationMusic.play();
+    });
+  </script>
 
-  // 🎤 When your voice starts, stop the celebration music
-  voiceMessage.addEventListener("play", () => {
-    if (!celebrationMusic.paused) {
-      celebrationMusic.pause();
-    }
-  });
-
-  // 🎶 When your voice ends, resume celebration music
-  voiceMessage.addEventListener("ended", () => {
-    celebrationMusic.play();
-  });
-</script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 </html>
