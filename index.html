@@ -261,18 +261,32 @@
 <script>
   const celebrationMusic = document.getElementById("celebrationMusic");
   const voiceMessage = document.getElementById("voiceMessage");
+  const startCelebration = document.getElementById("startCelebration");
 
-  // Pause celebration music when voice message starts
+  // 🎉 Start button triggers music + confetti
+  startCelebration.addEventListener("click", () => {
+    celebrationMusic.play();
+
+    // Confetti
+    confetti({
+      particleCount: 150,
+      spread: 90,
+      origin: { y: 0.6 }
+    });
+  });
+
+  // 🎤 When your voice starts, stop the celebration music
   voiceMessage.addEventListener("play", () => {
     if (!celebrationMusic.paused) {
       celebrationMusic.pause();
     }
   });
 
-  // Resume celebration music when voice message ends
+  // 🎶 When your voice ends, resume celebration music
   voiceMessage.addEventListener("ended", () => {
     celebrationMusic.play();
   });
 </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 </html>
