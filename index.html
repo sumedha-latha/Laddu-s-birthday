@@ -164,7 +164,7 @@
   <h2>💌 A Message From Me</h2>
   <p>Because words on screen weren’t enough, here’s my voice — straight from me to you. 🎶</p>
   <audio controls>
-    <source src="voice.mp3" type="audio/mpeg">
+    <source src="Audio.m4a" type="audio/mp4">
     Your browser does not support the audio element.
   </audio>
 
@@ -257,6 +257,21 @@
       typeLetter();
     }
   </script>
+<script>
+  const celebrationMusic = document.getElementById("celebrationMusic");
+  const voiceMessage = document.getElementById("voiceMessage");
 
+  // Pause celebration music when voice message starts
+  voiceMessage.addEventListener("play", () => {
+    if (!celebrationMusic.paused) {
+      celebrationMusic.pause();
+    }
+  });
+
+  // Resume celebration music when voice message ends
+  voiceMessage.addEventListener("ended", () => {
+    celebrationMusic.play();
+  });
+</script>
 </body>
 </html>
